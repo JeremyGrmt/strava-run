@@ -6,5 +6,5 @@ import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("BIKE")
-public class Bike extends MovingSport {
+public class Biking extends MovingSport {
 }

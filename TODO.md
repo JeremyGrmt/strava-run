@@ -16,18 +16,18 @@ Légende : `[x]` fait · `[ ]` à faire
 - [x] Corriger le `\` parasite en fin de ligne dans `application.properties`
 - [x] Remettre `spring.application.name=strava-run` (ne pas confondre nom d'appli et nom de base)
 - [x] `git init` + `git add .`
-- [ ] Vérifier que l'appli démarre et que `GET /api/workouts` répond
+- [x] Vérifier que l'appli démarre et que `GET /api/workouts` répond
 - [x] Premier commit
 ---
 
 ## Étape 2 — DTO de requête & mapper
 
-- [ ] Créer des DTO d'entrée (`record`) au lieu de recevoir les entités JPA dans les contrôleurs (`@RequestBody Workout`, `@RequestBody EffortType`)
-- [ ] Passer `WorkoutResponseDTO` en `record`
-- [ ] Sortir la conversion entité ↔ DTO du contrôleur vers une classe `Mapper` dédiée
-- [ ] Ne plus renvoyer d'entité JPA en réponse (ex. `create` renvoie actuellement un `Workout`)
-- [ ] Ajouter les validations manquantes (`@NotBlank` sur `title`, `@NotNull` sur `date` / `effortTypeId`…)
-- [ ] Supprimer l'import inutilisé de `WorkoutResponseDTO` dans `WorkoutService`
+- [x] Créer des DTO d'entrée (`record`) au lieu de recevoir les entités JPA dans les contrôleurs (`@RequestBody Workout`, `@RequestBody EffortType`)
+- [x] Passer `WorkoutResponseDTO` en `record`
+- [x] Sortir la conversion entité ↔ DTO du contrôleur vers une classe `Mapper` dédiée (`WorkoutMapper`)
+- [x] Ne plus renvoyer d'entité JPA en réponse (`create` renvoie désormais un `WorkoutResponseDTO`)
+- [x] Ajouter les validations manquantes (`@NotBlank` sur `title`, `@NotNull` sur `date` / `effortTypeId`…)
+- [x] Supprimer l'import inutilisé de `WorkoutResponseDTO` dans `WorkoutService`
 
 ## Étape 3 — Gestion d'erreurs & codes HTTP
 

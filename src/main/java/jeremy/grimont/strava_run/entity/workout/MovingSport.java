@@ -14,7 +14,5 @@ public abstract class MovingSport extends Workout {
     private Long distance; // (m)
     @Positive(message = "Moving Time can only be positive")
     private Long movingTime; //
-    @Positive(message = "Total time can only be positive")
-    private Long totalTime; // (ms)
 
 }

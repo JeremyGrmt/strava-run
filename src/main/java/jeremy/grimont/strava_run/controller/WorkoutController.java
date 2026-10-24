@@ -1,8 +1,10 @@
 package jeremy.grimont.strava_run.controller;
 
+import jakarta.validation.Valid;
 import jeremy.grimont.strava_run.dto.WorkoutResponseDTO;
-import jeremy.grimont.strava_run.entity.workout.MovingSport;
+import jeremy.grimont.strava_run.dto.request.CreateWorkoutRequest;
 import jeremy.grimont.strava_run.entity.workout.Workout;
+import jeremy.grimont.strava_run.mapper.WorkoutMapper;
 import jeremy.grimont.strava_run.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -16,13 +18,14 @@ import java.util.List;
 public class WorkoutController {
 
     private final WorkoutService service;
+    private final WorkoutMapper mapper;
 
     @GetMapping
     public List<WorkoutResponseDTO> getAllWorkouts() {
         List<Workout> workouts = service.findAll();
 
         return workouts.stream()
-                .map(this::convertToDTO)
+                .map(mapper::toResponse)
                 .toList();
     }
 
@@ -31,39 +34,14 @@ public class WorkoutController {
     }
 
     @PostMapping
-    public Workout create(@RequestBody @Validated Workout newWorkout) {
-        return service.create(newWorkout);
+    public WorkoutResponseDTO create(@RequestBody @Valid CreateWorkoutRequest request) {
+        Workout wSaved = service.create(request);
+        return mapper.toResponse(wSaved);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         service.deleteById(id);
-    }
-
-    private WorkoutResponseDTO convertToDTO(Workout workout) {
-
-        WorkoutResponseDTO dto = new WorkoutResponseDTO();
-
-        dto.setId(workout.getId());
-        dto.setTitle(workout.getTitle());
-        dto.setDescription(workout.getDescription());
-        dto.setDate(workout.getDate());
-        dto.setDurationInMinutes(workout.getDurationInMinutes());
-        dto.setDiscipline(workout.getDiscipline());
-        dto.setCalories(workout.getCalories());
-        dto.setEffortTypeLabel(workout.getEffortType().getLabel());
-
-        switch (workout) {
-            case MovingSport ms -> {
-                dto.setDistance(ms.getDistance());
-                dto.setTotalTime(ms.getTotalTime());
-                dto.setMovingTime(ms.getMovingTime());
-            }
-            default -> {
-            }
-        }
-
-        return dto;
     }
 
 }

@@ -27,7 +27,7 @@ import java.time.LocalDate;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Running.class, name = "RUNNING"),
-        @JsonSubTypes.Type(value = Bike.class, name = "BIKE")
+        @JsonSubTypes.Type(value = Biking.class, name = "BIKE")
 
 })
 
@@ -41,8 +41,8 @@ public class Workout {
     private String title;
     private String description;
     private LocalDate date;
-    @Positive(message = "Duration can only be positive")
-    private Integer durationInMinutes;
+    @Positive(message = "Total time can only be positive")
+    private Long totalTime; // (ms)
     @Column(insertable = false, updatable = false)
     @JsonIgnore
     private String discipline;

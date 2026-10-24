@@ -1,14 +1,15 @@
 package jeremy.grimont.strava_run.service;
 
+import jeremy.grimont.strava_run.dto.request.CreateWorkoutRequest;
 import jeremy.grimont.strava_run.entity.EffortType;
 import jeremy.grimont.strava_run.entity.workout.Workout;
 import jeremy.grimont.strava_run.exception.WorkoutNotFoundException;
+import jeremy.grimont.strava_run.mapper.WorkoutMapper;
 import jeremy.grimont.strava_run.repository.EffortTypeRepository;
 import jeremy.grimont.strava_run.repository.WorkoutRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
-import jeremy.grimont.strava_run.dto.WorkoutResponseDTO;
 
 import java.util.List;
 
@@ -18,11 +19,13 @@ public class WorkoutService {
 
     private final WorkoutRepository workoutRepository;
     private final EffortTypeRepository effortTypeRepository;
+    private final WorkoutMapper mapper;
 
-    public Workout create(@NonNull Workout workout) {
-        Long effortTypeId = workout.getEffortType().getId();
-        EffortType effortType = effortTypeRepository.findById(effortTypeId).orElseThrow();
-
+    public Workout create(@NonNull CreateWorkoutRequest request) {
+        Workout workout = mapper.toEntity(request);
+        EffortType effortType = effortTypeRepository
+                .findById(request.effortTypeId())
+                .orElseThrow();
         workout.setEffortType(effortType);
         return workoutRepository.save(workout);
 
