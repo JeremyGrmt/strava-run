@@ -13,7 +13,7 @@ import java.time.LocalDate;
         visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CreateRunningRequest.class, name = "RUNNING"),
-        @JsonSubTypes.Type(value = CreateBikingRequest.class,    name = "BIKE")
+        @JsonSubTypes.Type(value = CreateBikingRequest.class,    name = "BIKING")
 })
 public sealed interface CreateWorkoutRequest permits CreateRunningRequest, CreateBikingRequest {
     String title();

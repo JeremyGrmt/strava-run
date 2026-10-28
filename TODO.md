@@ -57,12 +57,12 @@ Légende : `[x]` fait · `[ ]` à faire
 
 ## Étape 6 — Modèle de données
 
-- [ ] Rendre `Workout` `abstract`
+- [x] ~~Rendre `Workout` `abstract`~~ → décision inverse : `Workout` reste **concret**, c'est la discipline générique par défaut (« autre »), repli quand aucune discipline ne correspond (apps tierces incluses)
 - [ ] Harmoniser les unités de durée (`durationInMinutes`, `movingTime`, `totalTime`) → envisager `java.time.Duration`
 - [ ] `date` : passer de `LocalDate` à `LocalDateTime` / `Instant` (heure de début d'activité)
-- [ ] Revoir le champ `discipline` (`@JsonIgnore` contradictoire avec `visible = true`)
-- [ ] Corriger le problème N+1 sur `effortType` (`LAZY`) lors du `findAll` (`JOIN FETCH` / `@EntityGraph`)
-- [ ] Gérer le cas `effortType == null` dans le mapping (NPE actuel)
+- [x] Revoir le champ `discipline` : champ bricolé (`insertable=false` + `@JsonIgnore`) supprimé → discipline dérivée du type Java via `getDiscipline()` (non-null dès le POST) ; annotations Jackson mortes retirées de l'entité
+- [x] ~~Corriger le problème N+1 sur `effortType`~~ → sans objet : `effortType` est un enum (colonne chargée avec l'entité, plus de jointure)
+- [x] ~~Gérer le cas `effortType == null` dans le mapping (NPE)~~ → sans objet : plus de `.getLabel()`, le mapper expose directement l'enum (null toléré)
 
 ## Étape 7 — Tests
 

@@ -6,4 +6,6 @@ import jakarta.persistence.*;
 @Entity
 @DiscriminatorValue("RUNNING")
 public class Running extends MovingSport {
+    @Override
+    public String getDiscipline() {return "RUNNING";}
 }

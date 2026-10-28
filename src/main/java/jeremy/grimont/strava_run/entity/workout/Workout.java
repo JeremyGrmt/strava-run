@@ -1,8 +1,5 @@
 package jeremy.grimont.strava_run.entity.workout;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -16,20 +13,10 @@ import java.time.LocalDate;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "discipline")
+@DiscriminatorValue("OTHER")
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "discipline",
-        visible = true
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Running.class, name = "RUNNING"),
-        @JsonSubTypes.Type(value = Biking.class, name = "BIKE")
-
-})
 
 public class Workout {
 
@@ -43,9 +30,7 @@ public class Workout {
     private LocalDate date;
     @Positive(message = "Total time can only be positive")
     private Long totalTime; // (ms)
-    @Column(insertable = false, updatable = false)
-    @JsonIgnore
-    private String discipline;
+    public String getDiscipline() {return "OTHER";}
     @PositiveOrZero(message = "Calories cannot be negative")
     private Integer calories;
 
