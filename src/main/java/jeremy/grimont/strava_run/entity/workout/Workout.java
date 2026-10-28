@@ -49,6 +49,6 @@ public class Workout {
     @PositiveOrZero(message = "Calories cannot be negative")
     private Integer calories;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
     private EffortType effortType;
 }

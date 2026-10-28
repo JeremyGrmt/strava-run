@@ -2,6 +2,8 @@ package jeremy.grimont.strava_run.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import jeremy.grimont.strava_run.entity.EffortType;
+
 import java.time.LocalDate;
 
 @JsonTypeInfo(
@@ -19,6 +21,6 @@ public sealed interface CreateWorkoutRequest permits CreateRunningRequest, Creat
     LocalDate date();
     Long totalTime();
     Integer calories();
-    Long effortTypeId();
+    EffortType effortType();
     String discipline();
 }

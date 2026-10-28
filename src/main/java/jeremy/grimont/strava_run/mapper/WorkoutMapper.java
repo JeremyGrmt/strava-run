@@ -4,6 +4,7 @@ import jeremy.grimont.strava_run.dto.WorkoutResponseDTO;
 import jeremy.grimont.strava_run.dto.request.CreateBikingRequest;
 import jeremy.grimont.strava_run.dto.request.CreateRunningRequest;
 import jeremy.grimont.strava_run.dto.request.CreateWorkoutRequest;
+import jeremy.grimont.strava_run.entity.EffortType;
 import jeremy.grimont.strava_run.entity.workout.Biking;
 import jeremy.grimont.strava_run.entity.workout.MovingSport;
 import jeremy.grimont.strava_run.entity.workout.Running;
@@ -51,9 +52,9 @@ public class WorkoutMapper {
         Long totalTime = workout.getTotalTime();
         String discipline = workout.getDiscipline();
         Integer calories = workout.getCalories();
-        String effortTypeLabel = workout.getEffortType().getLabel();
+        EffortType effortType = workout.getEffortType();
 
-        return new WorkoutResponseDTO(id, title, description,date,totalTime,discipline,calories,effortTypeLabel, distance, movingTime);
+        return new WorkoutResponseDTO(id, title, description,date,totalTime,discipline,calories,effortType, distance, movingTime);
     }
 
     private void applyCommonFields(Workout w, CreateWorkoutRequest r)
@@ -63,5 +64,6 @@ public class WorkoutMapper {
         w.setDate(r.date());
         w.setTotalTime(r.totalTime());
         w.setCalories(r.calories());
+        w.setEffortType(r.effortType());
     }
 }

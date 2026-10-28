@@ -3,6 +3,7 @@ package jeremy.grimont.strava_run.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jeremy.grimont.strava_run.entity.EffortType;
 
 import java.time.LocalDate;
 
@@ -19,7 +20,7 @@ public record CreateBikingRequest(
         @Positive(message = "Calories count must be positive")
         Integer calories,
         @NotNull(message = "Effort type is required")
-        Long effortTypeId,
+        EffortType effortType,
         @NotBlank(message = "Discipline is required")
         String discipline,
         @Positive(message = "Distance must be positive")

@@ -49,10 +49,11 @@ Légende : `[x]` fait · `[ ]` à faire
 
 ## Étape 5 — Refonte d'`EffortType`
 
-- [ ] Créer un `EffortTypeService` (le contrôleur appelle actuellement le repository directement)
-- [ ] `DELETE /api/efforts/{id}` au lieu d'un `DELETE` avec body
-- [ ] Uniformiser l'injection (`@RequiredArgsConstructor` comme ailleurs)
-- [ ] Réfléchir : table de référence ou `enum` ?
+- [x] Réfléchir : table de référence ou `enum` ? → choix de l'`enum`
+- [x] Transformer `EffortType` en `enum` + `@Enumerated(EnumType.STRING)` sur `Workout`
+- [x] Adapter les DTO (`effortTypeId: Long` → `effortType: EffortType`) et le mapper/service
+- [x] Supprimer l'entité, le repository, le contrôleur et l'exception `EffortTypeNotFoundException` devenus inutiles
+- [x] Vérifier : création OK, valeur invalide → 400, stockage en base en chaîne (`VO2MAX`)
 
 ## Étape 6 — Modèle de données
 
