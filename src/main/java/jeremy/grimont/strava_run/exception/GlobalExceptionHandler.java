@@ -1,11 +1,11 @@
 package jeremy.grimont.strava_run.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.ProblemDetail;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,30 +13,28 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        String errorMessage = ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
+    public ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 
-        Map<String, String> errorBody = new HashMap<>();
-        errorBody.put("error", errorMessage);
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Validation Failed");
 
-        return ResponseEntity.badRequest().body(errorBody);
-    }
+        Map<String, String> errors = new HashMap<>();
+        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+            errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
 
-    @ExceptionHandler(HttpClientErrorException.NotFound.class)
-    public ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(HttpClientErrorException.NotFound ex) {
-        String errorMessage = ex.getMessage();
+        pd.setProperty("errors", errors);
 
-        Map<String, String> errorBody = new HashMap<>();
-        errorBody.put("error", errorMessage);
-
-        return ResponseEntity.notFound().build();
+        return pd;
     }
 
     @ExceptionHandler(WorkoutNotFoundException.class)
-    public ResponseEntity<Object> handleWorkoutNotFound(WorkoutNotFoundException ex) {
-        Map<String, String> errorBody = new HashMap<>();
-        errorBody.put("error", ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorBody);
+    public ProblemDetail handleWorkoutNotFound(WorkoutNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
     }
+
+    @ExceptionHandler(EffortTypeNotFoundException.class)
+    public ProblemDetail handleEffortTypeNotFound(EffortTypeNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
 }

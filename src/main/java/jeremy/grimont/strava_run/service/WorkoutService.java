@@ -6,6 +6,7 @@ import jeremy.grimont.strava_run.dto.request.UpdateWorkoutRequest;
 import jeremy.grimont.strava_run.entity.EffortType;
 import jeremy.grimont.strava_run.entity.workout.MovingSport;
 import jeremy.grimont.strava_run.entity.workout.Workout;
+import jeremy.grimont.strava_run.exception.EffortTypeNotFoundException;
 import jeremy.grimont.strava_run.exception.WorkoutNotFoundException;
 import jeremy.grimont.strava_run.mapper.WorkoutMapper;
 import jeremy.grimont.strava_run.repository.EffortTypeRepository;
@@ -25,11 +26,18 @@ public class WorkoutService {
     private final EffortTypeRepository effortTypeRepository;
     private final WorkoutMapper mapper;
 
+    public List<Workout> findAll() {
+        return workoutRepository.findAll();
+    }
+
+    public Workout findById(Long workoutId) {
+        return workoutRepository.findById(workoutId)
+                .orElseThrow(() -> new WorkoutNotFoundException("Workout with id " + workoutId + " not found"));
+    }
+
     public Workout create(@NonNull CreateWorkoutRequest request) {
         Workout workout = mapper.toEntity(request);
-        EffortType effortType = effortTypeRepository
-                .findById(request.effortTypeId())
-                .orElseThrow();
+        EffortType effortType = getEffortType(request.effortTypeId());
         workout.setEffortType(effortType);
         return workoutRepository.save(workout);
 
@@ -43,9 +51,7 @@ public class WorkoutService {
         workout.setDate(request.date());
         workout.setTotalTime(request.totalTime());
         workout.setCalories(request.calories());
-        EffortType effortType = effortTypeRepository
-                .findById(request.effortTypeId())
-                .orElseThrow();
+        EffortType effortType = getEffortType(request.effortTypeId());
         workout.setEffortType(effortType);
         if(workout instanceof MovingSport ms) {
             ms.setDistance(request.distance());
@@ -64,9 +70,7 @@ public class WorkoutService {
         if (request.totalTime() != null)  workout.setTotalTime(request.totalTime());
         if (request.calories() != null) workout.setCalories(request.calories());
         if (request.effortTypeId() != null) {
-            EffortType effortType = effortTypeRepository
-                    .findById(request.effortTypeId())
-                    .orElseThrow();
+            EffortType effortType = getEffortType(request.effortTypeId());
             workout.setEffortType(effortType);
         }
 
@@ -78,16 +82,16 @@ public class WorkoutService {
         return workout;
     }
 
-    public List<Workout> findAll() {
-        return workoutRepository.findAll();
-    }
-
-    public Workout findById(Long workoutId) {
-        return workoutRepository.findById(workoutId)
-                .orElseThrow(() -> new WorkoutNotFoundException("Workout with id " + workoutId + " not found"));
-    }
-
     public void deleteById(Long id) {
+        if (!workoutRepository.existsById(id)){
+            throw new WorkoutNotFoundException("Workout with id " + id + " not found");
+        }
         workoutRepository.deleteById(id);
+    }
+
+    private EffortType getEffortType(Long effortTypeId) {
+        return effortTypeRepository
+                .findById(effortTypeId)
+                .orElseThrow(() -> new EffortTypeNotFoundException("Effort Type with id " + effortTypeId + " not found"));
     }
 }

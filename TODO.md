@@ -31,12 +31,13 @@ Légende : `[x]` fait · `[ ]` à faire
 
 ## Étape 3 — Gestion d'erreurs & codes HTTP
 
-- [ ] Remplacer les réponses maison par `ProblemDetail` (RFC 9457)
-- [ ] Supprimer le handler `HttpClientErrorException.NotFound` (concerne les appels HTTP sortants, jamais déclenché ici)
-- [ ] Renvoyer toutes les erreurs de validation, pas seulement la première (`getFieldErrors().get(0)`)
-- [ ] `create` : gérer `effortType` absent (NPE) ou inconnu (`orElseThrow()` → 500) avec un 400 / 404 explicite
-- [ ] `POST` → `201 Created` (+ en-tête `Location`)
-- [ ] `DELETE` → `204 No Content`, et 404 si l'id n'existe pas
+- [x] Remplacer les réponses maison par `ProblemDetail` (RFC 9457)
+- [x] Supprimer le handler `HttpClientErrorException.NotFound` (concerne les appels HTTP sortants, jamais déclenché ici)
+- [x] Renvoyer toutes les erreurs de validation, pas seulement la première (`getFieldErrors().get(0)`)
+- [x] `create`/`update`/`patch` : gérer `effortType` inconnu avec un 404 explicite (`EffortTypeNotFoundException`) + factoriser (`getEffortType`)
+- [x] `POST` → `201 Created` (+ en-tête `Location`)
+- [x] `DELETE` → `204 No Content`, et 404 si l'id n'existe pas
+- [x] (bonus) `GET /api/workouts/{id}` (200, 404 si absent)
 
 ## Étape 4 — Mise à jour d'un workout
 
