@@ -7,7 +7,8 @@ import jakarta.validation.constraints.Positive;
 import java.time.LocalDate;
 
 public record CreateRunningRequest(
-        @NotBlank(message = "Title is required") String title,
+        @NotBlank(message = "Title is required")
+        String title,
         String description,
         @NotNull(message = "Date is required")
         LocalDate date,

@@ -1,7 +1,9 @@
 package jeremy.grimont.strava_run.service;
 
 import jeremy.grimont.strava_run.dto.request.CreateWorkoutRequest;
+import jeremy.grimont.strava_run.dto.request.UpdateWorkoutRequest;
 import jeremy.grimont.strava_run.entity.EffortType;
+import jeremy.grimont.strava_run.entity.workout.MovingSport;
 import jeremy.grimont.strava_run.entity.workout.Workout;
 import jeremy.grimont.strava_run.exception.WorkoutNotFoundException;
 import jeremy.grimont.strava_run.mapper.WorkoutMapper;
@@ -10,6 +12,7 @@ import jeremy.grimont.strava_run.repository.WorkoutRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,16 +34,24 @@ public class WorkoutService {
 
     }
 
-    public Workout update(@NonNull Workout workout) {
-        // check existance
-        // get current WO
-        // check updated fields
-        // update fields
-        // save
-
-        Long workoutId = workout.getId();
-
+    @Transactional
+    public Workout update(Long id, UpdateWorkoutRequest request) {
+        Workout workout = findById(id);
+        workout.setTitle(request.title());
+        workout.setDescription(request.description());
+        workout.setDate(request.date());
+        workout.setTotalTime(request.totalTime());
+        workout.setCalories(request.calories());
+        EffortType effortType = effortTypeRepository
+                .findById(request.effortTypeId())
+                .orElseThrow();
+        workout.setEffortType(effortType);
+        if(workout instanceof MovingSport ms) {
+            ms.setDistance(request.distance());
+            ms.setMovingTime(request.movingTime());
+        }
         return workout;
+
     }
 
     public List<Workout> findAll() {

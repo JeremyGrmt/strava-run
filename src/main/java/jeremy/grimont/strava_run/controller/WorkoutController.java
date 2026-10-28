@@ -3,11 +3,11 @@ package jeremy.grimont.strava_run.controller;
 import jakarta.validation.Valid;
 import jeremy.grimont.strava_run.dto.WorkoutResponseDTO;
 import jeremy.grimont.strava_run.dto.request.CreateWorkoutRequest;
+import jeremy.grimont.strava_run.dto.request.UpdateWorkoutRequest;
 import jeremy.grimont.strava_run.entity.workout.Workout;
 import jeremy.grimont.strava_run.mapper.WorkoutMapper;
 import jeremy.grimont.strava_run.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +29,10 @@ public class WorkoutController {
                 .toList();
     }
 
-    public Workout update(@RequestBody @Validated Workout updatedWorkout) {
-        return service.update(updatedWorkout);
+    @PutMapping("/{id}")
+    public WorkoutResponseDTO update(@PathVariable Long id, @RequestBody @Valid UpdateWorkoutRequest request) {
+        Workout wUpdated =  service.update(id, request);
+        return mapper.toResponse(wUpdated);
     }
 
     @PostMapping

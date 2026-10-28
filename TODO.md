@@ -40,10 +40,11 @@ Légende : `[x]` fait · `[ ]` à faire
 
 ## Étape 4 — Mise à jour d'un workout
 
-- [ ] Choisir entre `PUT` (remplacement complet) et `PATCH` (mise à jour partielle)
-- [ ] Implémenter `WorkoutService.update` (actuellement vide)
-- [ ] Brancher l'endpoint dans `WorkoutController` (il manque l'annotation de mapping)
-- [ ] Découvrir `@Transactional` et le *dirty checking* de JPA
+- [x] Choisir entre `PUT` (remplacement complet) et `PATCH` (mise à jour partielle) → les deux, `PUT` d'abord
+- [x] Implémenter `WorkoutService.update` (via `PUT` : remplacement complet)
+- [x] Brancher l'endpoint `PUT /api/workouts/{id}` dans `WorkoutController`
+- [x] Découvrir `@Transactional` et le *dirty checking* de JPA (testé : UPDATE sans `save()`)
+- [ ] Implémenter `PATCH /api/workouts/{id}` (mise à jour partielle : null-vs-absent)
 
 ## Étape 5 — Refonte d'`EffortType`
 
