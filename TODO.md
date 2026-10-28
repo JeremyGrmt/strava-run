@@ -44,7 +44,7 @@ Légende : `[x]` fait · `[ ]` à faire
 - [x] Implémenter `WorkoutService.update` (via `PUT` : remplacement complet)
 - [x] Brancher l'endpoint `PUT /api/workouts/{id}` dans `WorkoutController`
 - [x] Découvrir `@Transactional` et le *dirty checking* de JPA (testé : UPDATE sans `save()`)
-- [ ] Implémenter `PATCH /api/workouts/{id}` (mise à jour partielle : null-vs-absent)
+- [x] Implémenter `PATCH /api/workouts/{id}` (mise à jour partielle, approche « non-null = modifie » ; testé)
 
 ## Étape 5 — Refonte d'`EffortType`
 

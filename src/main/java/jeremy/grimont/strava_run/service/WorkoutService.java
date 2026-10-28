@@ -1,6 +1,7 @@
 package jeremy.grimont.strava_run.service;
 
 import jeremy.grimont.strava_run.dto.request.CreateWorkoutRequest;
+import jeremy.grimont.strava_run.dto.request.PatchWorkoutRequest;
 import jeremy.grimont.strava_run.dto.request.UpdateWorkoutRequest;
 import jeremy.grimont.strava_run.entity.EffortType;
 import jeremy.grimont.strava_run.entity.workout.MovingSport;
@@ -50,8 +51,31 @@ public class WorkoutService {
             ms.setDistance(request.distance());
             ms.setMovingTime(request.movingTime());
         }
-        return workout;
 
+        return workout;
+    }
+
+    @Transactional
+    public Workout patch(Long id, PatchWorkoutRequest request) {
+        Workout workout = findById(id);
+        if (request.title() != null) workout.setTitle(request.title());
+        if (request.description() != null) workout.setDescription(request.description());
+        if (request.date() != null)  workout.setDate(request.date());
+        if (request.totalTime() != null)  workout.setTotalTime(request.totalTime());
+        if (request.calories() != null) workout.setCalories(request.calories());
+        if (request.effortTypeId() != null) {
+            EffortType effortType = effortTypeRepository
+                    .findById(request.effortTypeId())
+                    .orElseThrow();
+            workout.setEffortType(effortType);
+        }
+
+        if(workout instanceof MovingSport ms) {
+            if (request.distance() != null)ms.setDistance(request.distance());
+            if (request.movingTime() != null)ms.setMovingTime(request.movingTime());
+        }
+
+        return workout;
     }
 
     public List<Workout> findAll() {

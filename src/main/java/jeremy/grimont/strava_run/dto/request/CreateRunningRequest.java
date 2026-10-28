@@ -22,7 +22,9 @@ public record CreateRunningRequest(
         Long effortTypeId,
         @NotBlank(message = "Discipline is required")
         String discipline,
+        @Positive(message = "Distance must be positive")
         Long distance,
+        @Positive(message = "Moving time must be positive")
         Long movingTime
         ) implements CreateWorkoutRequest{
 

@@ -20,7 +20,9 @@ public record UpdateWorkoutRequest(
         Integer calories,
         @NotNull(message = "Effort type is required")
         Long effortTypeId,
+        @Positive(message = "Distance must be positive")
         Long distance,
+        @Positive(message = "Moving time must be positive")
         Long movingTime
 ) {
 }

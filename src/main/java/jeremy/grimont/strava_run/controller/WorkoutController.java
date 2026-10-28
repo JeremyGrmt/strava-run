@@ -3,6 +3,7 @@ package jeremy.grimont.strava_run.controller;
 import jakarta.validation.Valid;
 import jeremy.grimont.strava_run.dto.WorkoutResponseDTO;
 import jeremy.grimont.strava_run.dto.request.CreateWorkoutRequest;
+import jeremy.grimont.strava_run.dto.request.PatchWorkoutRequest;
 import jeremy.grimont.strava_run.dto.request.UpdateWorkoutRequest;
 import jeremy.grimont.strava_run.entity.workout.Workout;
 import jeremy.grimont.strava_run.mapper.WorkoutMapper;
@@ -33,6 +34,12 @@ public class WorkoutController {
     public WorkoutResponseDTO update(@PathVariable Long id, @RequestBody @Valid UpdateWorkoutRequest request) {
         Workout wUpdated =  service.update(id, request);
         return mapper.toResponse(wUpdated);
+    }
+
+    @PatchMapping("/{id}")
+    public WorkoutResponseDTO patch(@PathVariable Long id, @RequestBody @Valid PatchWorkoutRequest request) {
+        Workout wPatched =  service.patch(id, request);
+        return mapper.toResponse(wPatched);
     }
 
     @PostMapping
