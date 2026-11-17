@@ -3,12 +3,12 @@ package jeremy.grimont.strava_run.dto.request;
 import jakarta.validation.constraints.Positive;
 import jeremy.grimont.strava_run.entity.EffortType;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 public record PatchWorkoutRequest(
         String title,
         String description,
-        LocalDate date,
+        OffsetDateTime date,
         @Positive(message = "Duration must be positive")
         Long totalTime,
         @Positive(message = "Calories count must be positive")

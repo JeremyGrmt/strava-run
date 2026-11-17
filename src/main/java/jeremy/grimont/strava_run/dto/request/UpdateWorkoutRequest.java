@@ -5,14 +5,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jeremy.grimont.strava_run.entity.EffortType;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 public record UpdateWorkoutRequest(
         @NotBlank(message = "Title is required")
         String title,
         String description,
         @NotNull(message = "Date is required")
-        LocalDate date,
+        OffsetDateTime date,
         @NotNull(message = "Duration is required")
         @Positive(message = "Duration must be positive")
         Long totalTime,
@@ -24,6 +24,7 @@ public record UpdateWorkoutRequest(
         @Positive(message = "Distance must be positive")
         Long distance,
         @Positive(message = "Moving time must be positive")
+        @NotNull
         Long movingTime
 ) {
 }

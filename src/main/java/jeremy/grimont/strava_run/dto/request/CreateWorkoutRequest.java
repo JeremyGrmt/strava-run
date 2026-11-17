@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jeremy.grimont.strava_run.entity.EffortType;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public sealed interface CreateWorkoutRequest permits CreateRunningRequest, CreateBikingRequest {
     String title();
     String description();
-    LocalDate date();
+    OffsetDateTime date();
     Long totalTime();
     Integer calories();
     EffortType effortType();

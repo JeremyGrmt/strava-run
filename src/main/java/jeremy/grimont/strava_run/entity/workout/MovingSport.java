@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Duration;
+
 @Entity
 @Getter
 @Setter
@@ -12,7 +14,6 @@ public abstract class MovingSport extends Workout {
 
     @Positive(message = "Distance can only be positive")
     private Long distance; // (m)
-    @Positive(message = "Moving Time can only be positive")
-    private Long movingTime; //
+    private Duration movingTime;
 
 }

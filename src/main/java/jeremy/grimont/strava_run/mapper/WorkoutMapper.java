@@ -11,7 +11,8 @@ import jeremy.grimont.strava_run.entity.workout.Running;
 import jeremy.grimont.strava_run.entity.workout.Workout;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 
 @Component
 public class WorkoutMapper {
@@ -21,14 +22,14 @@ public class WorkoutMapper {
                 Running running = new Running();
                 this.applyCommonFields(running, r);
                 running.setDistance(r.distance());
-                running.setMovingTime(r.movingTime());
+                running.setMovingTime(Duration.ofSeconds(r.movingTime()));
                 yield running;
             }
             case CreateBikingRequest b -> {
                 Biking biking = new Biking();
                 this.applyCommonFields(biking, b);
                 biking.setDistance(b.distance());
-                biking.setMovingTime(b.movingTime());
+                biking.setMovingTime(Duration.ofSeconds(b.movingTime()));
                 yield biking;
 
             }
@@ -41,15 +42,15 @@ public class WorkoutMapper {
         Long movingTime = null;
         if(workout instanceof MovingSport ms) {
             distance = ms.getDistance();
-            movingTime = ms.getMovingTime();
+            movingTime = ms.getMovingTime() != null ? ms.getMovingTime().toSeconds() : null;
 
         }
 
         Long id = workout.getId();
         String title = workout.getTitle();
         String description = workout.getDescription();
-        LocalDate date = workout.getDate();
-        Long totalTime = workout.getTotalTime();
+        OffsetDateTime date = workout.getDate();
+        Long totalTime = workout.getTotalTime() != null ? workout.getTotalTime().toSeconds() : null;
         String discipline = workout.getDiscipline();
         Integer calories = workout.getCalories();
         EffortType effortType = workout.getEffortType();
@@ -62,7 +63,7 @@ public class WorkoutMapper {
         w.setTitle(r.title());
         w.setDescription(r.description());
         w.setDate(r.date());
-        w.setTotalTime(r.totalTime());
+        w.setTotalTime(Duration.ofSeconds(r.totalTime()));
         w.setCalories(r.calories());
         w.setEffortType(r.effortType());
     }

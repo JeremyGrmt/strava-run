@@ -8,7 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -27,9 +28,8 @@ public class Workout {
 
     private String title;
     private String description;
-    private LocalDate date;
-    @Positive(message = "Total time can only be positive")
-    private Long totalTime; // (ms)
+    private OffsetDateTime date;
+    private Duration totalTime; // (s)
     public String getDiscipline() {return "OTHER";}
     @PositiveOrZero(message = "Calories cannot be negative")
     private Integer calories;

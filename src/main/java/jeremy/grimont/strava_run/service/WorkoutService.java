@@ -13,6 +13,7 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -43,12 +44,12 @@ public class WorkoutService {
         workout.setTitle(request.title());
         workout.setDescription(request.description());
         workout.setDate(request.date());
-        workout.setTotalTime(request.totalTime());
+        workout.setTotalTime(Duration.ofSeconds(request.totalTime()));
         workout.setCalories(request.calories());
         workout.setEffortType(request.effortType());
         if(workout instanceof MovingSport ms) {
             ms.setDistance(request.distance());
-            ms.setMovingTime(request.movingTime());
+            ms.setMovingTime(Duration.ofSeconds(request.movingTime()));
         }
 
         return workout;
@@ -60,13 +61,13 @@ public class WorkoutService {
         if (request.title() != null) workout.setTitle(request.title());
         if (request.description() != null) workout.setDescription(request.description());
         if (request.date() != null)  workout.setDate(request.date());
-        if (request.totalTime() != null)  workout.setTotalTime(request.totalTime());
+        if (request.totalTime() != null)  workout.setTotalTime(Duration.ofSeconds(request.totalTime()));
         if (request.calories() != null) workout.setCalories(request.calories());
         if (request.effortType() != null) workout.setEffortType(request.effortType());
 
         if(workout instanceof MovingSport ms) {
             if (request.distance() != null)ms.setDistance(request.distance());
-            if (request.movingTime() != null)ms.setMovingTime(request.movingTime());
+            if (request.movingTime() != null)ms.setMovingTime(Duration.ofSeconds(request.movingTime()));
         }
 
         return workout;
